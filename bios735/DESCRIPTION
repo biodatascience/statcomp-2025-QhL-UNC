@@ -1,0 +1,13 @@
+Package: bios735
+Title: two sample t-test
+Version: 0.0.0.1
+Authors@R: 
+    person("Qinghua", "Li", , "qinghua_li@med.unc.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: t-test for two samples with equal variance.
+License: GPL-2
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
