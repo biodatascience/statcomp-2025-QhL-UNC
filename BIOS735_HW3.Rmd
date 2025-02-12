@@ -139,6 +139,7 @@ arma::mat armadillo_solve(arma::mat A, arma::vec b) {
 Check that your function gives the correct answer here:
 
 ```{r}
+Rcpp::compileAttributes()
 document("bios735")
 load_all("bios735")
 A <- matrix(runif(12),ncol=3)
