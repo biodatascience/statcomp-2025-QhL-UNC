@@ -1,3 +1,4 @@
 HW1	2	2	3	Q1: wrap in a loop to further avoid repetitive code Q2: f1 does not give same solution as f0. 
 HW2	3	3	3	Great
 HW3	3	2	3	3	Note: you should only need to load_all() once in Rmd Q2: Looks like a seeding problem from not having two separate loops in the rcpp function
+HW4	3	3	3	3	
