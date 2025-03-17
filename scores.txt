@@ -1,1 +1,2 @@
 HW1	2	2	3	Q1: wrap in a loop to further avoid repetitive code Q2: f1 does not give same solution as f0. 
+HW2	3	3	3	Great
