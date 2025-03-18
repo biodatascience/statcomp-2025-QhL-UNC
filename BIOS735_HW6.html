@@ -515,8 +515,8 @@ L(\boldsymbol{\theta}) = \prod_{i=1}^n
 \begin{align}
 Q(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}}) &amp;=
 E(l(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}},\boldsymbol{y_i})) \\
-&amp;= \sum_{i=1}^n E(z_i|\boldsymbol{\theta^t},
-\boldsymbol{y_i})*I(y_i=0)*log(\pi^t) +
+&amp;= \sum_{i=1}^n E(z_i|\boldsymbol{\theta^{(t)}},
+\boldsymbol{y_i})*I(y_i=0)*log(\pi^{(t)}) +
 (1-E(z_i|\boldsymbol{\theta^{(t)}},
 \boldsymbol{y_i}))*\left(\log(1-\pi^{(t)}) -\lambda^{(t)} +
 {y_i}\log(\lambda^{(t)}) + \log{y_i!}\right)
@@ -540,7 +540,7 @@ I[y_i=0]+(1-\pi^{(t)})e^{-\lambda^{(t)}}}
 <p><span class="math display">\[
 \begin{align}
 \frac{\partial
-Q(\boldsymbol{\theta}|\boldsymbol{\theta^t})}{\partial\pi} =
+Q(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}})}{\partial\pi} =
 \sum_{i=1}^n E(z_i|\boldsymbol{\theta^{(t)},
 y_i}){\frac{1}{\pi^{(t)}}}-\sum_{i=1}^n
 (1-E(z_i|\boldsymbol{\theta^{(t)}, y_i})){\frac{1}{1-\pi^{(t)}}}= 0

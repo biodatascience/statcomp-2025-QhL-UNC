@@ -163,7 +163,7 @@ $$
 $$
 \begin{align}
 Q(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}}) &= E(l(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}},\boldsymbol{y_i})) \\
-&= \sum_{i=1}^n E(z_i|\boldsymbol{\theta^t}, \boldsymbol{y_i})*I(y_i=0)*log(\pi^t) + (1-E(z_i|\boldsymbol{\theta^{(t)}}, \boldsymbol{y_i}))*\left(\log(1-\pi^{(t)}) -\lambda^{(t)} + {y_i}\log(\lambda^{(t)}) + \log{y_i!}\right)
+&= \sum_{i=1}^n E(z_i|\boldsymbol{\theta^{(t)}}, \boldsymbol{y_i})*I(y_i=0)*log(\pi^{(t)}) + (1-E(z_i|\boldsymbol{\theta^{(t)}}, \boldsymbol{y_i}))*\left(\log(1-\pi^{(t)}) -\lambda^{(t)} + {y_i}\log(\lambda^{(t)}) + \log{y_i!}\right)
 \end{align}
 $$
 where
@@ -182,7 +182,7 @@ M-step is to maxmize the parameters, we take partial derivative w.r.t $\pi$ and 
 
 $$
 \begin{align} 
-\frac{\partial Q(\boldsymbol{\theta}|\boldsymbol{\theta^t})}{\partial\pi} = \sum_{i=1}^n E(z_i|\boldsymbol{\theta^{(t)}, y_i}){\frac{1}{\pi^{(t)}}}-\sum_{i=1}^n (1-E(z_i|\boldsymbol{\theta^{(t)}, y_i})){\frac{1}{1-\pi^{(t)}}}= 0
+\frac{\partial Q(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}})}{\partial\pi} = \sum_{i=1}^n E(z_i|\boldsymbol{\theta^{(t)}, y_i}){\frac{1}{\pi^{(t)}}}-\sum_{i=1}^n (1-E(z_i|\boldsymbol{\theta^{(t)}, y_i})){\frac{1}{1-\pi^{(t)}}}= 0
 \end{align}
 $$
 
