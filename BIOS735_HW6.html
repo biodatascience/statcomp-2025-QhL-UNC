@@ -513,12 +513,13 @@ L(\boldsymbol{\theta}) = \prod_{i=1}^n
 <h3>Expression for E-step: Solution</h3>
 <p><span class="math display">\[
 \begin{align}
-Q(\boldsymbol{\theta}|\boldsymbol{\theta^t}) &amp;=
-E(l(\boldsymbol{\theta}|\boldsymbol{\theta^t},\boldsymbol{y_i})) \\
+Q(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}}) &amp;=
+E(l(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}},\boldsymbol{y_i})) \\
 &amp;= \sum_{i=1}^n E(z_i|\boldsymbol{\theta^t},
-\boldsymbol{y_i})*I(y_i=0)*log(\pi^t) + (1-E(z_i|\boldsymbol{\theta^t},
-\boldsymbol{y_i}))*\left(\log(1-\pi^t) -\lambda^t + {y_i}\log(\lambda^t)
-+ \log{y_i!}\right)
+\boldsymbol{y_i})*I(y_i=0)*log(\pi^t) +
+(1-E(z_i|\boldsymbol{\theta^{(t)}},
+\boldsymbol{y_i}))*\left(\log(1-\pi^{(t)}) -\lambda^{(t)} +
+{y_i}\log(\lambda^{(t)}) + \log{y_i!}\right)
 \end{align}
 \]</span> where</p>
 <p><span class="math display">\[
@@ -526,8 +527,9 @@ E(l(\boldsymbol{\theta}|\boldsymbol{\theta^t},\boldsymbol{y_i})) \\
 E(z_i|\boldsymbol{\theta^{(t)}, y_i}) &amp; = p(z_i =
 1|\boldsymbol{\theta^{(t)}, y_i}) \\
 &amp;= \frac{p(z_i=1, \boldsymbol{y_i},
-\boldsymbol{\theta^t})}{p(\boldsymbol{y_i}|\boldsymbol{\theta^t})}\\
-&amp;= \frac{\pi^tI[y_i=0]}{\pi^tI[y_i=0]+(1-\pi^t)e^{-\lambda^t}}
+\boldsymbol{\theta^{(t)}})}{p(\boldsymbol{y_i}|\boldsymbol{\theta^{(t)}})}\\
+&amp;= \frac{\pi^{(t)} I[y_i=0]}{\pi^{(t)}
+I[y_i=0]+(1-\pi^{(t)})e^{-\lambda^{(t)}}}
 \end{align}
 \]</span></p>
 </div>
@@ -540,16 +542,16 @@ E(z_i|\boldsymbol{\theta^{(t)}, y_i}) &amp; = p(z_i =
 \frac{\partial
 Q(\boldsymbol{\theta}|\boldsymbol{\theta^t})}{\partial\pi} =
 \sum_{i=1}^n E(z_i|\boldsymbol{\theta^{(t)},
-y_i}){\frac{1}{\pi^t}}-\sum_{i=1}^n (1-E(z_i|\boldsymbol{\theta^{(t)},
-y_i})){\frac{1}{1-\pi^t}}= 0
+y_i}){\frac{1}{\pi^{(t)}}}-\sum_{i=1}^n
+(1-E(z_i|\boldsymbol{\theta^{(t)}, y_i})){\frac{1}{1-\pi^{(t)}}}= 0
 \end{align}
 \]</span></p>
 <p><span class="math display">\[
 \begin{align}
 \frac{\partial
-Q(\boldsymbol{\theta}|\boldsymbol{\theta^t})}{\partial\lambda} =
+Q(\boldsymbol{\theta}|\boldsymbol{\theta^{(t)}})}{\partial\lambda} =
 \sum_{i=1}^n(1-E(z_i|\boldsymbol{\theta^{(t)},
-y_i}))(-1+\frac{y_i}{\lambda^t}) = 0
+y_i}))(-1+\frac{y_i}{\lambda^{(t)}}) = 0
 \end{align}
 \]</span></p>
 <p>Solve the equations above, we get <span class="math display">\[
