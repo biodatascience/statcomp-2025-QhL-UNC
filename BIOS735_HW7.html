@@ -367,11 +367,10 @@ convergence threshold, etc and evaluate its impact before reporting your
 final result. We have shown how to perform, for example, AGQ and IS to
 obtain the likelihood pertaining to the first subject from class.</p>
 <pre class="r"><code>## Solution: place relevant helper functions pertaining to integration here 
-library(statmod)</code></pre>
-<pre><code>## Warning: package &#39;statmod&#39; was built under R version 4.4.3</code></pre>
-<pre class="r"><code>library(optimx)
+library(statmod)
+library(optimx)
 
-# complete data likelihoo i
+# complete data likelihood i
 ll_i = function(x, y, gammai) {
   val = rep(NA, length(gammai))
   for (i in 1:length(val)) {
@@ -437,37 +436,25 @@ fit = function(tol, M) {
 }
 
 fit(tol = 10^2, M = 100)</code></pre>
-<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
-##   This can cause poor performance in optimization. 
-##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
 <pre><code>##                p1        p2        p3    value fevals gevals niter convcode
 ## L-BFGS-B 1.820335 0.1656986 0.2183919 281.9251     61     61    NA        0
 ##          kkt1 kkt2 xtime
-## L-BFGS-B TRUE TRUE  3.92</code></pre>
+## L-BFGS-B TRUE TRUE  3.94</code></pre>
 <pre class="r"><code>## End Solution</code></pre>
 <pre class="r"><code>fit(tol = 10^3, M = 100)</code></pre>
-<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
-##   This can cause poor performance in optimization. 
-##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
 <pre><code>##                p1        p2        p3    value fevals gevals niter convcode
 ## L-BFGS-B 1.820335 0.1656986 0.2183919 281.9251     61     61    NA        0
 ##          kkt1 kkt2 xtime
-## L-BFGS-B TRUE TRUE  4.09</code></pre>
-<pre class="r"><code>ff &lt;- fit(tol = 10^6, M = 100)</code></pre>
-<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
-##   This can cause poor performance in optimization. 
-##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
-<pre class="r"><code>ff</code></pre>
+## L-BFGS-B TRUE TRUE  3.87</code></pre>
+<pre class="r"><code>ff &lt;- fit(tol = 10^6, M = 100)
+ff</code></pre>
 <pre><code>##                p1        p2        p3    value fevals gevals niter convcode
 ## L-BFGS-B 1.820335 0.1656986 0.2183919 281.9251     22     22    NA        0
 ##          kkt1 kkt2 xtime
-## L-BFGS-B TRUE TRUE  1.43</code></pre>
+## L-BFGS-B TRUE TRUE  1.28</code></pre>
 <pre class="r"><code>fit(tol = 10^6, M = 5)</code></pre>
-<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
-##   This can cause poor performance in optimization. 
-##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
 <pre><code>##          p1 p2 p3         value fevals gevals niter convcode kkt1 kkt2 xtime
-## L-BFGS-B NA NA NA 8.988466e+307     NA     NA    NA     9999   NA   NA  0.02</code></pre>
+## L-BFGS-B NA NA NA 8.988466e+307     NA     NA    NA     9999   NA   NA     0</code></pre>
 </div>
 <div id="plot" class="section level1">
 <h1>Plot</h1>

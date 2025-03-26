@@ -15,12 +15,12 @@ Now that we have discussed several approaches for numerical integration, lets no
 
 Hint: You should evaluate a number of intervals/nodes, decreasing the convergence threshold, etc and evaluate its impact before reporting your final result. We have shown how to perform, for example, AGQ and IS to obtain the likelihood pertaining to the first subject from class. 
 
-```{r}
+```{r, warning=FALSE}
 ## Solution: place relevant helper functions pertaining to integration here 
 library(statmod)
 library(optimx)
 
-# complete data likelihoo i
+# complete data likelihood i
 ll_i = function(x, y, gammai) {
   val = rep(NA, length(gammai))
   for (i in 1:length(val)) {
@@ -90,22 +90,20 @@ fit(tol = 10^2, M = 100)
 ## End Solution
 ```
 
-```{r}
+```{r, warning=FALSE}
 fit(tol = 10^3, M = 100)
 ```
 
 
-```{r}
+```{r, warning=FALSE}
 ff <- fit(tol = 10^6, M = 100)
 ff
 ```
 
 
-```{r}
+```{r, warning=FALSE}
 fit(tol = 10^6, M = 5)
 ```
-
-
 
 
 
