@@ -1,0 +1,162 @@
+---
+title: "HW 9 - MCMC"
+author: "Qinghua Li"
+date: "4/15/2025"
+output: html_document
+---
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(data.table)   # to read in alzheimers.dat
+```
+
+# Maximization of poisson GLMM from lecture
+
+Lets now maximize the poisson GLMM model given in lecture, now using an MCEM approach. In a previous HW, you used numerical integration tools to approximate the likelihood for this model, then applied numerical optimization to obtain the estimates of the model parameters.  
+
+Here we wish to use MCEM, where in lecture we have already gone over a similar implementation using a rejection sampler in the E-step.  
+
+For this HW, please use a Metropolis Hastings Random Walk proposal distribution to approximate the Q-function in the E-step. Specify your proposal distribution. Write functions implementing the E-step, the M-step, and then write the main code for the MCEM algorithm.  
+
+Feel free to reuse/modify the lecture code to do this. However, you can implement the M-step and other parts of the EM algorithm however is most convenient to you. Not required by any means, but it may be helpful from a speed perspective to recode the sampler into Rcpp. 
+
+
+```{r}
+## Solution: place relevant helper functions pertaining to the E step here 
+set.seed(123)
+
+fast_read_augment = function(data, M){
+  if(!is.data.table(data)) {
+    data = data.table(data)
+  }
+  data_aug = data[rep(1:nrow(data),  M),]
+  data_aug$M = rep(1:M, each = nrow(data))
+  data_aug = data_aug[order(subject, M, month),]
+  data_aug$samples = rep(0, nrow(data_aug))
+  return(data_aug)
+}
+
+mcmc_sampler_i = function(yi, beta_t, sigma_t, M, burn_in, trace = 0) {
+  gamma_0 = glm(yi ~ 1, family = poisson(), offset = beta_t[1] + beta_t[2] * 1:5)$coef
+  gamma_sample = rep(0, M)
+  gamma_sample[1] = gamma_0
+  reject = 0
+  for (m in 2:M) {
+    gamma = gamma_sample[m - 1]
+    epsilon = runif(1, -0.5, 0.5)
+    gamma_star = epsilon + gamma
+    gamma_sample[m] = gamma_star
+    lambda = exp(gamma + beta_t[1] + beta_t[2] * 1:5)
+    lambda_star = exp(gamma_star + beta_t[1] + beta_t[2] * 1:5)
+    f = sum(log(dpois(yi, lambda))) + log(dnorm(gamma, mean = 0, sd = sqrt(sigma_t)))
+    f_star = sum(log(dpois(yi, lambda_star))) + log(dnorm(gamma_star, mean = 0, sd = sqrt(sigma_t)))
+    
+    R = exp(f_star - f)
+    if (R < 1) {
+      if (rbinom(1, 1, R) == 0){
+        gamma_sample[m] = gamma_sample[m - 1]
+        reject = reject + 1
+      }
+    }
+  }
+  if (trace > 0) {
+    print(1 - reject / M)
+  }
+  return(gamma_sample[(burn_in + 1):M])
+}
+
+mcmc_sampler_all = function(data, data_aug, M, beta_t, sigma_t, burn_in, trace = 0) {
+  n = length(unique(data$subject))
+  for (i in 1:n) {
+    yi = data[subject == i, words]
+    sample_i = mcmc_sampler_i(yi, beta_t, sigma_t, M, burn_in, trace)
+    sample_i = sample_i[rep(1:(M - burn_in), each = 5)]
+    data_aug[subject == i, samples := sample_i]
+  }
+  return(data_aug)
+}
+## End Solution
+
+
+## Solution: place relevant helper functions pertaining to the M step here
+s2gamma_best = function(al_M_aug, M, burn_in) {
+  return(sum(al_M_aug[month == 1, samples] ^ 2) /
+           (length(unique(al_M_aug$subject)) * (M - burn_in)))
+}
+
+beta_best = function(al_M_aug, beta) {
+  fit = glm(
+    al_M_aug$words ~ 1 + al_M_aug$month,
+    family = poisson(),
+    offset = al_M_aug$samples,
+    # use starting value from previous step
+    start = beta
+  )
+  return(as.vector(fit$coefficients))
+}
+## End Solution
+
+
+## Solution: place primary code for the MCEM algorithm here, calling functions in the above two sections
+## Remember to print your primary results and use the following starting values
+
+# set initial parameters
+tol = 10^-5
+maxit = 100
+iter = 0
+eps = 10000
+qfunction = rep(-10000, maxit) # using Qfunction for convergence
+  
+# starting values from previous rejection sampling
+beta = c(1.804, 0.165) 
+s2gamma =  0.000225 + .01 
+# Length of chain
+M = 10000
+# burn in
+burn.in = 2000
+
+## read data
+al = read.table("data/alzheimers.dat", header = T)
+al = data.table(al)
+al_augment = fast_read_augment(al, M - burn.in)
+
+while(eps > tol & iter < maxit){
+  qfunction0 = qfunction[iter + 1]
+  
+  ## E-step
+  al_M_aug = mcmc_sampler_all(
+    data = al,
+    data_aug = al_augment,
+    M = M,
+    beta_t = beta,
+    sigma_t = s2gamma,
+    burn_in = burn.in
+  )
+  
+  lambda_M_aug = exp(beta[1] + beta[2] * al_M_aug[, month] + al_M_aug[, samples])
+  
+  qfunction[iter + 2] = 
+    sum(dpois(al_M_aug[, words], lambda = lambda_M_aug, log = T)) + 
+    sum(dnorm(al_M_aug[month == 1, samples], 
+              mean = 0,
+              sd = sqrt(s2gamma),
+              log = T))
+  
+  qfunction[iter + 2] = (qfunction[iter + 2]) / M 
+  
+  ## End E-step
+  eps  = abs(qfunction[iter + 2] - qfunction0) / abs(qfunction0)
+  
+  ## M-step
+  s2gamma = s2gamma_best(al_M_aug, M, burn.in)
+  beta = beta_best(al_M_aug, beta)
+  
+  ## update iterator
+  iter = iter + 1
+  if(iter == maxit - 1) warning("Iteration limit reached without convergence")
+  
+  ## print out info to keep track
+  cat(sprintf("Iter: %d Qf: %.3f s2gamma: %f beta0: %.3f beta1:%.3f eps:%f\n",iter, qfunction[iter], s2gamma, beta[1],beta[2], eps))
+}
+```
+
