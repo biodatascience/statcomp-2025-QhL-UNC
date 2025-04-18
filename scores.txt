@@ -4,3 +4,4 @@ HW3	3	2	3	3	Note: you should only need to load_all() once in Rmd Q2: Looks like 
 HW4	3	3	3	3	
 HW5	3	3	3	
 HW6	2.5	3	Q1: why does bfgs converge when nr does not?
+HW7	3	
