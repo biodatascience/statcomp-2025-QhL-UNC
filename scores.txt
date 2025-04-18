@@ -5,3 +5,4 @@ HW4	3	3	3	3
 HW5	3	3	3	
 HW6	2.5	3	Q1: why does bfgs converge when nr does not?
 HW7	3	
+HW8	3	
