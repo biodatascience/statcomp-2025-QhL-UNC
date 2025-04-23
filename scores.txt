@@ -2,3 +2,7 @@ HW1	2	2	3	Q1: wrap in a loop to further avoid repetitive code Q2: f1 does not gi
 HW2	3	3	3	Great
 HW3	3	2	3	3	Note: you should only need to load_all() once in Rmd Q2: Looks like a seeding problem from not having two separate loops in the rcpp function
 HW4	3	3	3	3	
+HW5	3	3	3	
+HW6	2.5	3	Q1: why does bfgs converge when nr does not?
+HW7	3	
+HW8	3	
